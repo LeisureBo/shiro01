@@ -63,7 +63,7 @@ public class HelloShiroTest {
 	@Test
 	public void testHelloShiro() {
 		// 通过new IniSecurityManagerFactory并指定一个ini配置文件来创建一个SecurityManager工厂
-		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro/shiro.ini");
+		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro/jdbc_realm.ini");
 		// 获取SecurityManager实例
 		SecurityManager securityManager = factory.getInstance();
 		System.out.println("security manager is " + securityManager + ".");
@@ -72,7 +72,7 @@ public class HelloShiroTest {
 		// 通过SecurityUtils得到Subject，其会自动绑定到当前线程
 		Subject currentUser = SecurityUtils.getSubject();
 		// 创建token令牌:用户名/密码
-		UsernamePasswordToken token = new UsernamePasswordToken("shiro01","199312");
+		UsernamePasswordToken token = new UsernamePasswordToken("shiro01","12345");
 		try {
 			// 调用subject.login方法进行登录，其会自动委托给SecurityManager.login方法进行登录
 			currentUser.login(token);
