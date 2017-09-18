@@ -17,11 +17,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * @Description shiro测试
+ * @Description shiro身份验证测试 - JdbcRealm
  * @author 王博
  * @version 2017年9月14日　下午11:38:26
  */
-public class HelloShiroTest {
+public class AuthenticationTest {
 
 	/**
 	 * @Description 
@@ -71,7 +71,7 @@ public class HelloShiroTest {
 		SecurityUtils.setSecurityManager(securityManager);
 		// 通过SecurityUtils得到Subject，其会自动绑定到当前线程
 		Subject currentUser = SecurityUtils.getSubject();
-		// 创建token令牌:用户名/密码
+		// 创建用户身份token令牌:用户名/密码，也可能还有其他的，如登录时允许用户名/邮箱/手机号同时登录
 		UsernamePasswordToken token = new UsernamePasswordToken("shiro01","12345");
 		try {
 			// 调用subject.login方法进行登录，其会自动委托给SecurityManager.login方法进行登录
