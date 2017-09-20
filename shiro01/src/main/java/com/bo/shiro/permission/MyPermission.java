@@ -76,7 +76,7 @@ public class MyPermission implements Permission, Serializable {
 	
 	@Override
 	public String toString() {
-		return ReflectionToStringBuilder.toString(this);
+		return ReflectionToStringBuilder.toString(this);// com.bo.shiro.permission.MyPermission@10811b5[domain=user,action=update,instanceId=1]
 	}
 
 	public String getDomain() {
