@@ -10,7 +10,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.realm.Realm;
 
 /**
- * @Description 自定义realm实现
+ * @Description 自定义身份验证realm
  * @author 王博
  * @version 2017年9月19日　上午11:41:13
  */

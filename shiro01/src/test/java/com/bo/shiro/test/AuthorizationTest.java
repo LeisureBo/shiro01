@@ -68,7 +68,7 @@ public class AuthorizationTest {
 	@Test
 	public void test() {
 		// 1、获取SecurityManager工厂，此处使用Ini配置文件初始化SecurityManager
-	    Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro/authorize_permission.ini");
+	    Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro/custom_permission.ini");
 	     
 	    // 2、得到SecurityManager实例并绑定给SecurityUtils
 	    SecurityManager securityManager = factory.getInstance();
@@ -92,7 +92,8 @@ public class AuthorizationTest {
 	        logger.info("用户登录成功。");
 	        /** 进行权限判断 */
 //	        this.testWhetherHasRole(subject);
-	        this.testWhetherHasPermission(subject);
+//	        this.testWhetherHasPermission(subject);
+	        this.testCustomizePermission(subject);
 	    } else {
 	        logger.info("用户登录失败。");
 	    }
@@ -143,4 +144,30 @@ public class AuthorizationTest {
 	        subject.checkPermission("user:view");
 	}
 
+	/**
+	 * @Description 自定义权限验证
+	 * @param subject
+	 */
+	public void testCustomizePermission(Subject subject){
+		/**
+		 * isPermitted授权认证过程：
+		 * 最终调用父类AuthorizingRealm的isPermitted方法
+		 * 首先获取需要验证的权限串对应的Permission实例unauthPermission
+		 * 再通过子类doGetAuthorizationInfo获取当前用户的权限信息authorizationInfo
+		 * 通过authorizationInfo获取当前用户Permission实例并调用implies方法与unauthPermission进行匹配
+		 * */
+		
+        logger.info("-----------------------Begin-------------------------");
+        // isPermitted方法会调用MyRealmC的doGetAuthorizationInfo()方法
+        boolean hasPermission1 = subject.isPermitted("system-edit-10"); 
+        logger.info("The user has permission system-edit-10 is " + hasPermission1); // true
+        logger.info("------------------------End------------------------");
+         
+        logger.info("-----------------------Begin-------------------------");
+        // isPermitted方法会调用MyRealmC的doGetAuthorizationInfo()方法
+        boolean hasPermission3 = subject.isPermitted("users-delete-1"); // false
+        logger.info("The user has permission users-delete-1 is " + hasPermission3);    // true
+        logger.info("------------------------End------------------------");
+	}
+	
 }
