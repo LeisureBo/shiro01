@@ -135,7 +135,8 @@ public class AuthorizationTest {
 	        Assert.assertTrue("断言错误", subject.isPermittedAll("user:update", "user:delete"));
 	        // 判断没有权限：user:view
 	        Assert.assertFalse("断言错误", subject.isPermitted("user:view"));
-	         
+	        boolean[] result = subject.isPermitted("user:create","user:view","user:delete");
+	        logger.info("has create:{},has view:{},has delete:{}",result[0],result[1],result[2]);
 	        // 断言拥有权限：user:create
 	        subject.checkPermission("user:create");
 	        // 断言拥有权限：user:delete and user:update
