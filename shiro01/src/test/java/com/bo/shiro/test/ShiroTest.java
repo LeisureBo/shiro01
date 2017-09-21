@@ -2,6 +2,7 @@ package com.bo.shiro.test;
 
 import static org.junit.Assert.*;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -54,6 +55,8 @@ public class ShiroTest {
 		for(String part : parts){
 			System.out.println(part);
 		}
+		String password = "12345";
+		System.out.println(DigestUtils.md5Hex(password));
 	}
 
 }
