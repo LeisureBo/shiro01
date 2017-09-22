@@ -23,7 +23,6 @@
 </head>
 
 <body>
-	This is permission JSP page.
-	<br>
+	<h4>这是<h2>权限</h2>配置界面</h4>
 </body>
 </html>

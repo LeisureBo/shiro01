@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletResponse;
  * @version 2017年9月21日　下午10:06:18
  */
 @WebServlet("/unauthorized")
-public class UnauthorizedServlet extends HttpServlet {
+public class UnAuthorizedServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 2375711066056636472L;
 
-	public UnauthorizedServlet() {
+	public UnAuthorizedServlet() {
 	}
 
 	@Override

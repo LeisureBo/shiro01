@@ -3,6 +3,7 @@ package com.bo.shiro.test;
 import static org.junit.Assert.*;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -57,6 +58,15 @@ public class ShiroTest {
 		}
 		String password = "12345";
 		System.out.println(DigestUtils.md5Hex(password));
+		
+		System.out.println(UnknownAccountException.class.getName());
 	}
-
+	
+	@Test
+	public void isAjax(){
+		String header = "xmlHttpRequest";
+		boolean result = "XMLHttpRequest".equalsIgnoreCase(header);
+		System.out.println(result);
+		assertEquals("error", result, true);
+	}
 }

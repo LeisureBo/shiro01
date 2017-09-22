@@ -9,20 +9,23 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>角色</title>
+<title>表单登录</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
 
 </head>
 
 <body>
-	<h4>这是<h2>角色</h2>配置界面</h4>
+	<h4>请先进行身份验证..</h4>
+	<font color="red">${msg}</font>
+	<form action="${pageContext.request.contextPath}/formfilterlogin" method="post">
+		用户名：<input type="text" name="username"><br />
+		密码：<input type="password" name="password"><br />
+		<input type="submit" value="登录">
+	</form>
 </body>
 </html>

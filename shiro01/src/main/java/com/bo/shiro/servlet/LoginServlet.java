@@ -17,8 +17,6 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
-import com.bo.shiro.common.ShiroUtils;
-
 /**
  * @Description 
  * @author 王博
@@ -31,15 +29,18 @@ public class LoginServlet extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		this.doPost(req, resp);
+		req.getRequestDispatcher("/index.jsp").forward(req, resp);// doGet请求直接跳到登录页
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
+
 		if(StringUtils.isBlank(username) || StringUtils.isBlank(password)){
+			req.setAttribute("msg", "用户名或密码不能为空!");
 			req.getRequestDispatcher("/index.jsp").forward(req, resp);
+			return;
 		}
 		// 加密的密码
 		UsernamePasswordToken token = new UsernamePasswordToken(username, DigestUtils.md5Hex(password));
@@ -57,14 +58,45 @@ public class LoginServlet extends HttpServlet{
 			msg = "其他错误" + e.getMessage();
 		}
 		
-		if(subject.isAuthenticated()){// 登录成功返回欢迎界面
+		if(subject.isAuthenticated() && msg.equals("")){// 登录成功返回欢迎界面
 			req.setAttribute("subject", subject);
-			req.getRequestDispatcher("/shiro/user/welcome.jsp").forward(req, resp);
+			String jumpUrl = "shiro/user/welcome.jsp";
+			String fromUrl = (String)req.getSession().getAttribute("fromUrl");
+			// 如果用户访问资源时被拦截到登录,则登录认证后重定向到该地址
+			if(!StringUtils.isBlank(fromUrl)){
+				jumpUrl = fromUrl;
+				req.getSession().removeAttribute("fromUrl");
+			}
+//			resp.sendRedirect(jumpUrl);// servlet重定向不加"/"前置路径为工程名
+			req.getRequestDispatcher("/"+jumpUrl).forward(req, resp);
 		} else {// 登录失败返回首页
 			req.setAttribute("msg", msg);
 			req.getRequestDispatcher("/index.jsp").forward(req, resp);
 		}
 		
+	}
+	
+	private String getFromUrl(HttpServletRequest req){
+		String fromUrl = req.getRequestURI();// 获取请求资源路径(不含参数)
+		String queryString = req.getQueryString();// 获取get请求的参数串
+		if(!StringUtils.isBlank(queryString)){
+			fromUrl += "?" + queryString;
+		}
+		req.getSession().setAttribute("fromUrl", fromUrl);
+		
+		/*Enumeration<String> paramNames = req.getParameterNames();
+		boolean flag = false;
+		StringBuffer paramStr = new StringBuffer("?");
+		while(paramNames != null && paramNames.hasMoreElements()){
+			if(!flag) flag = true;
+			String name = paramNames.nextElement();
+			String value = req.getParameter(name);
+			paramStr.append(name).append("=").append(value);
+			if(paramNames.hasMoreElements()){
+				paramStr.append("&");
+			}
+		}*/
+		return fromUrl;
 	}
 	
 }

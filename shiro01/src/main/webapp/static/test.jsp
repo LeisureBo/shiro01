@@ -9,7 +9,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>角色</title>
+<title>My JSP 'test.jsp' starting page</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -23,6 +23,11 @@
 </head>
 
 <body>
-	<h4>这是<h2>角色</h2>配置界面</h4>
+	<h4>我是测试页</h4>
+	<form name="loginForm" action="<%=request.getContextPath()%>/login" method="POST">
+		用户名：<input type="text" name="username" value="" /> <br/> 
+		密码：<input type="password" name="password" value="" /> <br/> 
+		<input type="submit" name="sub" value="提交" />
+	</form>
 </body>
 </html>
