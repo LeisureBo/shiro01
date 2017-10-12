@@ -124,7 +124,7 @@ public class AuthenticationTest {
 	     * 用户身份Token 可能不仅仅是用户名/密码，也可能还有其他的，如登录时允许用户名/邮箱/手机号同时登录。
 	     */
 	    UsernamePasswordToken token = new UsernamePasswordToken("bo@163.com", "12345");
-	     
+	    
 	    try{
 	        // 4、登录，即身份验证
 	        subject.login(token);
