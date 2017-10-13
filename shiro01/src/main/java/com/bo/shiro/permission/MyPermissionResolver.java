@@ -23,6 +23,8 @@ public class MyPermissionResolver implements PermissionResolver {
 		logger.info("The method resolvePermission({}) was invoke.", permissionString);
 		if(permissionString.indexOf(MyPermission.PART_DIVIDER_TOKEN) != -1){
 			return new MyPermission(permissionString);
+		}else if(permissionString.startsWith("+")){
+			return new BitPermission(permissionString);
 		}
 		return new WildcardPermission(permissionString);
 	}

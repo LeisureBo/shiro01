@@ -69,4 +69,5 @@ public class ShiroTest {
 		System.out.println(result);
 		assertEquals("error", result, true);
 	}
+	
 }

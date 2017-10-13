@@ -1,4 +1,4 @@
-package com.bo.shiro.permission;
+package com.bo.shiro.realm;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -7,11 +7,15 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.authz.permission.WildcardPermission;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.bo.shiro.permission.BitPermission;
+import com.bo.shiro.permission.MyPermission;
 
 /**
  * @Description 自定义授权realm
@@ -71,6 +75,13 @@ public class MyRealmC extends AuthorizingRealm {
         /**
          * 只有当SimpleAuthorizationInfo中设置了权限后，自定义的Permission中implies方法才会被调用。
          */
+		authorizationInfo.addRole("role1");
+		authorizationInfo.addRole("role2");
+		authorizationInfo.addObjectPermission(new BitPermission("+user1+10"));
+		authorizationInfo.addObjectPermission(new WildcardPermission("user1:*"));
+		authorizationInfo.addStringPermission("+user2+10");
+		authorizationInfo.addStringPermission("user2:*");
+		authorizationInfo.addObjectPermission(new MyPermission("menu-view-10"));
 		authorizationInfo.addStringPermission("system-edit-10");
 		return authorizationInfo;
 	}

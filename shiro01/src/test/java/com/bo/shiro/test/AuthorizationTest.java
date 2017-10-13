@@ -68,15 +68,15 @@ public class AuthorizationTest {
 	@Test
 	public void test() {
 		// 1、获取SecurityManager工厂，此处使用Ini配置文件初始化SecurityManager
-	    Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro/custom_permission.ini");
-	     
+	    Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro/custom_authorize_permission.ini");
+	    
 	    // 2、得到SecurityManager实例并绑定给SecurityUtils
 	    SecurityManager securityManager = factory.getInstance();
 	    SecurityUtils.setSecurityManager(securityManager);
-	     
+	    
 	    // 3、得到Subject及创建用户名/密码身份验证Token（即用户身份/凭证）
 	    Subject subject = SecurityUtils.getSubject();
-	 
+	    
 	    UsernamePasswordToken token = new UsernamePasswordToken("bo", "12345");
 	    try{
 	        // 4、登录，即身份验证
@@ -86,18 +86,18 @@ public class AuthorizationTest {
 	        logger.info("用户身份验证失败");
 	        e.printStackTrace();
 	    }
-	     
+	    
 	    // 用户身份得到确认
 	    if (subject.isAuthenticated()) {
 	        logger.info("用户登录成功。");
 	        /** 进行权限判断 */
 //	        this.testWhetherHasRole(subject);
 //	        this.testWhetherHasPermission(subject);
-	        this.testCustomizePermission(subject);
+	        this.testCustomizeAuthorize(subject);
 	    } else {
 	        logger.info("用户登录失败。");
 	    }
-	 
+	    
 	    // 6、退出
 	    subject.logout();
 	}
@@ -140,7 +140,7 @@ public class AuthorizationTest {
 	        // 断言拥有权限：user:create
 	        subject.checkPermission("user:create");
 	        // 断言拥有权限：user:delete and user:update
-	        subject.checkPermissions("user:delete", "user:update");
+	        subject.checkPermissions("user:delete", "user:update");// 简写:user:delete,update
 	        // 断言拥有权限：user:view 失败抛出异常
 	        subject.checkPermission("user:view");
 	}
@@ -149,7 +149,7 @@ public class AuthorizationTest {
 	 * @Description 自定义权限验证
 	 * @param subject
 	 */
-	public void testCustomizePermission(Subject subject){
+	public void testCustomizeAuthorize(Subject subject){
 		/**
 		 * isPermitted授权认证过程：
 		 * 最终调用父类AuthorizingRealm的isPermitted方法
@@ -158,17 +158,31 @@ public class AuthorizationTest {
 		 * 通过authorizationInfo获取当前用户Permission实例并调用implies方法与unauthPermission进行匹配
 		 * */
 		
+		/** 授权过程演示 */
         logger.info("-----------------------Begin-------------------------");
         // isPermitted方法会调用MyRealmC的doGetAuthorizationInfo()方法
         boolean hasPermission1 = subject.isPermitted("system-edit-10"); 
         logger.info("The user has permission system-edit-10 is " + hasPermission1); // true
         logger.info("------------------------End------------------------");
-         
+        
         logger.info("-----------------------Begin-------------------------");
         // isPermitted方法会调用MyRealmC的doGetAuthorizationInfo()方法
         boolean hasPermission3 = subject.isPermitted("users-delete-1"); // false
         logger.info("The user has permission users-delete-1 is " + hasPermission3);    // true
         logger.info("------------------------End------------------------");
+        
+        // 判断拥有权限：user:create
+		Assert.assertTrue(subject.isPermitted("user1:update"));
+		Assert.assertTrue(subject.isPermitted("user2:update"));
+        // 通过BitPermission方式表示的权限
+		Assert.assertTrue(subject.isPermitted("+user1+2"));// 新增权限
+		Assert.assertTrue(subject.isPermitted("+user1+8"));// 查看权限
+		Assert.assertTrue(subject.isPermitted("+user2+10"));// 新增及查看
+		Assert.assertFalse(subject.isPermitted("+user1+4"));// 没有删除权限
+		// 通过MyPermisson方式表示的权限
+		Assert.assertTrue(subject.isPermitted("menu-view-10"));
+        // 通过MyRolePermissionResolver解析得到的权限
+		Assert.assertTrue("没有该权限",subject.isPermitted("user:update"));
 	}
 	
 }
