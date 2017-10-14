@@ -66,6 +66,12 @@
 		</dependency>
 		
 		<dependency>
+    		<groupId>com.alibaba</groupId>
+    		<artifactId>druid</artifactId>
+    		<version>1.1.2</version>
+		</dependency>
+		
+		<dependency>
     		<groupId>mysql</groupId>
     		<artifactId>mysql-connector-java</artifactId>
     		<version>5.1.40</version>
@@ -78,6 +84,7 @@
     		<version>4.0.0</version>
     		<scope>provided</scope>
 		</dependency>
+		
 		<dependency>
     		<groupId>javax.validation</groupId>
     		<artifactId>validation-api</artifactId>

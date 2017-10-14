@@ -68,7 +68,7 @@ public class AuthorizationTest {
 	@Test
 	public void test() {
 		// 1、获取SecurityManager工厂，此处使用Ini配置文件初始化SecurityManager
-	    Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro/custom_authorize_permission.ini");
+	    Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro/authorization/custom_authorize_permission.ini");
 	    
 	    // 2、得到SecurityManager实例并绑定给SecurityUtils
 	    SecurityManager securityManager = factory.getInstance();

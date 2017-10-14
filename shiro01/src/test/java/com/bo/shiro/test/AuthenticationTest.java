@@ -71,7 +71,7 @@ public class AuthenticationTest {
 	@Test
 	public void testAuthenticatorSingleRealm() {
 		// 通过new IniSecurityManagerFactory并指定一个ini配置文件来创建一个SecurityManager工厂
-		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro/jdbc_realm.ini");
+		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro/basic/jdbc_realm.ini");
 		// 获取SecurityManager实例
 		SecurityManager securityManager = factory.getInstance();
 		System.out.println("security manager is " + securityManager + ".");
@@ -112,7 +112,7 @@ public class AuthenticationTest {
 	@Test
 	public void testAuthenticatorMultiRealm(){
 		// 1、获取SecurityManager工厂，此处使用Ini配置文件初始化SecurityManager
-	    Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro/custom_authenticator_multi_realm.ini");
+	    Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro/authentication/custom_authenticator_multi_realm.ini");
 	     
 	    // 2、得到SecurityManager实例并绑定给SecurityUtils
 	    SecurityManager securityManager = factory.getInstance();
