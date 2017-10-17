@@ -1,4 +1,4 @@
-package com.bo.shiro.permission;
+package com.bo.shiro.authz.permission;
 
 import java.util.Arrays;
 import java.util.Collection;

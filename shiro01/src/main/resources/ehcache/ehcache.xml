@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache name="es">
+
+	<diskStore path="java.io.tmpdir" />
+
+	<!-- 登录记录缓存 存活时间单位(秒) 空闲时间不限制 -->
+	<cache name="passwordRetryCache" 
+		maxEntriesLocalHeap="2000" 
+		eternal="false" 
+		timeToIdleSeconds="0" 
+		timeToLiveSeconds="600" 
+		overflowToDisk="false" 
+		statistics="true">
+	</cache>
+
+</ehcache>

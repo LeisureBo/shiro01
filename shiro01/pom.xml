@@ -36,6 +36,12 @@
 		</dependency>
 
 		<dependency>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-jdbc</artifactId>
+    		<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.2</version>
@@ -75,6 +81,13 @@
     		<groupId>mysql</groupId>
     		<artifactId>mysql-connector-java</artifactId>
     		<version>5.1.40</version>
+		</dependency>
+		
+		<!-- java 缓存框架 -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>2.6.6</version>
 		</dependency>
 		
 		<!-- javax api -->

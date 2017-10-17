@@ -92,8 +92,8 @@ public class AuthorizationTest {
 	        logger.info("用户登录成功。");
 	        /** 进行权限判断 */
 //	        this.testWhetherHasRole(subject);
-//	        this.testWhetherHasPermission(subject);
-	        this.testCustomizeAuthorize(subject);
+	        this.testWhetherHasPermission(subject);
+//	        this.testCustomizeAuthorize(subject);
 	    } else {
 	        logger.info("用户登录失败。");
 	    }
@@ -136,7 +136,7 @@ public class AuthorizationTest {
 	        // 判断没有权限：user:view
 	        Assert.assertFalse("断言错误", subject.isPermitted("user:view"));
 	        boolean[] result = subject.isPermitted("user:create","user:view","user:delete");
-	        logger.info("has create:{},has view:{},has delete:{}",result[0],result[1],result[2]);
+	        logger.info("--------------------------------------------------has create:{"+result[0]+"},has view:{"+result[1]+"},has delete:{"+result[2]+"}");
 	        // 断言拥有权限：user:create
 	        subject.checkPermission("user:create");
 	        // 断言拥有权限：user:delete and user:update

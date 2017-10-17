@@ -1,4 +1,4 @@
-package com.bo.shiro.permission;
+package com.bo.shiro.authz.permission;
 
 import org.apache.shiro.authz.Permission;
 import org.apache.shiro.authz.permission.PermissionResolver;

@@ -10,7 +10,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
 /**
- * @Description 自定义密码加密realm
+ * @Description DefaultPasswordService配合PasswordMatcher实现简单的密码加密与验证服务Realm
  * @author 王博
  * @version 2017年10月14日　下午2:49:52
  */

@@ -2,12 +2,18 @@ package com.bo.shiro.test;
 
 import static org.junit.Assert.*;
 
+import java.util.Collection;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.config.IniSecurityManagerFactory;
+import org.apache.shiro.mgt.RealmSecurityManager;
+import org.apache.shiro.realm.Realm;
+import org.apache.shiro.realm.jdbc.JdbcRealm;
+import org.apache.shiro.realm.jdbc.JdbcRealm.SaltStyle;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.Factory;
 import org.apache.shiro.util.ThreadContext;
@@ -70,11 +76,21 @@ public class ShiroTest {
         Factory<org.apache.shiro.mgt.SecurityManager> factory =
                 new IniSecurityManagerFactory(configFile);
 
-        //2、得到SecurityManager实例 并绑定给SecurityUtils
+        //2、得到SecurityManager实例
         org.apache.shiro.mgt.SecurityManager securityManager = factory.getInstance();
+        /** shiro ini配置文件中不支持Enum枚举属性注入 需要在securityManager实例绑定前进行设置 */
+        Collection<Realm> realms = ((RealmSecurityManager)securityManager).getRealms();
+        for(Realm realm : realms){
+        	if(realm instanceof JdbcRealm){
+        		JdbcRealm jdbcRealm = (JdbcRealm) realm;
+        		// 表示使用密码+盐的机制返回用户信息 @see org.apache.shiro.realm.jdbc.JdbcRealm:doGetAuthenticationInfo()
+        		jdbcRealm.setSaltStyle(SaltStyle.COLUMN);
+        	}
+        }
+        //3、SecurityManager实例绑定到SecurityUtils(这是一个全局设置,设置一次即可)
         SecurityUtils.setSecurityManager(securityManager);
 
-        //3、得到Subject及创建用户名/密码身份验证Token（即用户身份/凭证）
+        //4、得到Subject及创建用户名/密码身份验证Token（即用户身份/凭证）
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 
