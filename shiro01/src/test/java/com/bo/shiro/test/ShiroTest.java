@@ -115,13 +115,4 @@ public class ShiroTest {
 		System.out.println(UnknownAccountException.class.getName());
 	}
 	
-	@Test
-	@Ignore
-	public void isAjax(){
-		String header = "xmlHttpRequest";
-		boolean result = "XMLHttpRequest".equalsIgnoreCase(header);
-		System.out.println(result);
-		assertEquals("error", result, true);
-	}
-	
 }

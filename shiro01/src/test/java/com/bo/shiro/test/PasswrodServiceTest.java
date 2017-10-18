@@ -52,16 +52,14 @@ public class PasswrodServiceTest extends ShiroTest {
 	}
 	
 	public void testRetryLimitHashedCredentialsMatcherWithMyRealmE() {
-		int i = 1;
-		for (; i <= 5; i++) {
+		for (int i = 1; i <= 5; i++) {
 			try {
 				login("classpath:shiro/authc/shiro_retryLimitHashedCredentialsMatcher.ini", "liu", "234");
 			} catch (Exception e) {
 				/* ignore */
 			}
 		}
-		System.out.println(i);
-		login("classpath:shiro/authc/shiro_retryLimitHashedCredentialsMatcher.ini", "liu", "234");
+		login("classpath:shiro/authc/shiro_retryLimitHashedCredentialsMatcher.ini", "liu", "12345");
 	}
 	
     /**
