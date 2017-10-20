@@ -2,6 +2,8 @@ package com.bo.shiro.service;
 
 import java.util.Set;
 
+import com.bo.shiro.entity.Permission;
+import com.bo.shiro.entity.Role;
 import com.bo.shiro.entity.User;
 
 /**
@@ -21,7 +23,7 @@ public interface UserService {
 
 	public User findByUsername(String username);// 根据用户名查找用户
 
-	public Set<String> findRoles(String username);// 根据用户名查找其角色
+	public Set<Role> findRoles(String username);// 根据用户名查找其角色
 
-	public Set<String> findPermissions(String username); // 根据用户名查找其权限
+	public Set<Permission> findPermissions(String username); // 根据用户名查找其权限
 }

@@ -5,6 +5,8 @@ import java.util.Set;
 import com.bo.shiro.common.PasswordHelper;
 import com.bo.shiro.dao.UserDao;
 import com.bo.shiro.dao.UserDaoImpl;
+import com.bo.shiro.entity.Permission;
+import com.bo.shiro.entity.Role;
 import com.bo.shiro.entity.User;
 
 /**
@@ -77,7 +79,7 @@ public class UserServiceImpl implements UserService {
 	 * @param username
 	 * @return
 	 */
-	public Set<String> findRoles(String username) {
+	public Set<Role> findRoles(String username) {
 		return userDao.findRoles(username);
 	}
 
@@ -87,7 +89,7 @@ public class UserServiceImpl implements UserService {
 	 * @param username
 	 * @return
 	 */
-	public Set<String> findPermissions(String username) {
+	public Set<Permission> findPermissions(String username) {
 		return userDao.findPermissions(username);
 	}
 

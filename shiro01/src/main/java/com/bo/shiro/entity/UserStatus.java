@@ -23,4 +23,14 @@ public enum UserStatus {
 		this.detail = detail;
 	}
 	
+	public static UserStatus getByOrdinal(int ordinal){
+		UserStatus[] status = UserStatus.values();
+		for(UserStatus us : status){
+			if(us.ordinal() == ordinal){
+				return us;
+			}
+		}
+		return null;
+	}
+	
 }

@@ -2,34 +2,38 @@ package com.bo.shiro.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 
 import com.bo.shiro.common.JdbcTemplateUtils;
+import com.bo.shiro.entity.Permission;
+import com.bo.shiro.entity.Role;
 import com.bo.shiro.entity.User;
+import com.bo.shiro.entity.UserStatus;
 
 /**
  * @Description
  * @author 王博
  * @version 2017年10月18日　下午2:16:40
  */
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl implements UserDao, RowMapper<User> {
 
 	private JdbcTemplate jdbcTemplate = JdbcTemplateUtils.jdbcTemplate();
 
 	@Override
 	public User addUser(final User user) {
-		final String sql = "insert into sys_users(username, password, salt, userstatus) values(?,?,?,?)";
+		final String sql = "insert into sys_users(username, password, salt, user_status) values(?,?,?,?)";
 		GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
-
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 				PreparedStatement pstat = con.prepareStatement(sql, new String[] { "id" });// 后面一个参数表示需要返回的列
@@ -46,7 +50,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void updateUser(User user) {
-		String sql = "update sys_users set username=?, password=?, salt=?, userstatus=? where id=?";
+		String sql = "update sys_users set username=?, password=?, salt=?, user_status=? where id=?";
 		jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getSalt(), user.getUserStatus().ordinal(), user.getId());
 	}
 
@@ -90,25 +94,44 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public User findById(Long userId) {
 		String sql = "select * from sys_users where id=?";
-		return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper(User.class), userId);
+		return jdbcTemplate.queryForObject(sql, this, userId);
 	}
 
 	@Override
 	public User findByUsername(String username) {
 		String sql = "select * from sys_users where username=?";
-		return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper(User.class), username);
+		return jdbcTemplate.queryForObject(sql, this, username);
 	}
 
 	@Override
-	public Set<String> findRoles(String username) {
-		String sql = "select role from sys_users u, sys_roles r,sys_users_roles ur where u.username=? and u.id=ur.user_id and r.id=ur.role_id";
-		return new HashSet(jdbcTemplate.queryForList(sql, String.class, username));
+	public Set<Role> findRoles(String username) {
+		String sql = "select r.* from sys_users u, sys_roles r,sys_users_roles ur where u.username=? and u.id=ur.user_id and r.id=ur.role_id";
+		return new HashSet(jdbcTemplate.query(sql, new BeanPropertyRowMapper(Role.class), username));
 	}
 
 	@Override
-	public Set<String> findPermissions(String username) {
-		String sql = "select permission from sys_users u, sys_roles r, sys_permissions p, sys_users_roles ur, sys_roles_permissions rp where u.username=? and u.id=ur.user_id and r.id=ur.role_id and r.id=rp.role_id and p.id=rp.permission_id";
-		return new HashSet(jdbcTemplate.queryForList(sql, String.class, username));
+	public Set<Permission> findPermissions(String username) {
+		String sql = "select p.* from sys_permissions p INNER JOIN sys_roles_permissions rp ON p.id=rp.permission_id where role_id in ("
+				+ "select ur.role_id from sys_users u INNER JOIN sys_users_roles ur ON u.id=ur.user_id where username=?);";
+		return new HashSet(jdbcTemplate.query(sql, new BeanPropertyRowMapper(Permission.class), username));
+	}
+
+	/**
+	 * @Description
+	 * @param rs
+	 * @param rowNum
+	 * @return
+	 * @throws SQLException
+	 */
+	@Override
+	public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+		User user = new User();
+		user.setId(rs.getLong("id"));
+		user.setUsername(rs.getString("username"));
+		user.setPassword(rs.getString("password"));
+		user.setSalt(rs.getString("salt"));
+		user.setUserStatus(UserStatus.getByOrdinal(rs.getInt("user_status")));
+		return user;
 	}
 
 }

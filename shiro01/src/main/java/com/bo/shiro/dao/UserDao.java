@@ -2,6 +2,8 @@ package com.bo.shiro.dao;
 
 import java.util.Set;
 
+import com.bo.shiro.entity.Permission;
+import com.bo.shiro.entity.Role;
 import com.bo.shiro.entity.User;
 
 /**
@@ -25,7 +27,7 @@ public interface UserDao {
 
 	User findByUsername(String username);
 
-	Set<String> findRoles(String username);
+	Set<Role> findRoles(String username);
 
-	Set<String> findPermissions(String username);
+	Set<Permission> findPermissions(String username);
 }

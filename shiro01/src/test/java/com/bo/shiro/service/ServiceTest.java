@@ -1,9 +1,15 @@
 package com.bo.shiro.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.bo.shiro.common.JdbcTemplateUtils;
@@ -29,8 +35,10 @@ public class ServiceTest extends ShiroTest {
 	protected Permission p1;
 	protected Permission p2;
 	protected Permission p3;
+	protected Permission p4;
 	protected Role r1;
 	protected Role r2;
+	protected Role r3;
 	protected User u1;
 	protected User u2;
 	protected User u3;
@@ -52,15 +60,19 @@ public class ServiceTest extends ShiroTest {
 		p1 = new Permission("user:create", "用户模块新增", Boolean.TRUE);
 		p2 = new Permission("user:update", "用户模块修改", Boolean.TRUE);
 		p3 = new Permission("menu:create", "菜单模块新增", Boolean.TRUE);
+		p4 = new Permission("menu:update", "菜单模块修改", Boolean.TRUE);
+		
 		permissionService.createPermission(p1);
 		permissionService.createPermission(p2);
 		permissionService.createPermission(p3);
 
 		// 2、新增角色
 		r1 = new Role("admin", "管理员", Boolean.TRUE);
-		r2 = new Role("user", "用户管理员", Boolean.TRUE);
+		r2 = new Role("user", "用户", Boolean.TRUE);
+		r3 = new Role("tourist", "游客", Boolean.FALSE);
 		roleService.createRole(r1);
 		roleService.createRole(r2);
+		roleService.createRole(r3);
 
 		// 3、关联角色-权限
 		roleService.correlatePermissions(r1.getId(), p1.getId());
@@ -81,18 +93,22 @@ public class ServiceTest extends ShiroTest {
 		userService.createUser(u4);
 		// 5、关联用户-角色
 		userService.correlateRoles(u1.getId(), r1.getId());
+		userService.correlateRoles(u1.getId(), r3.getId());
 	}
 
 	@Test
+//	@Ignore
 	public void testUserRolePermissionRelation() {
 		// zhang
-		Set<String> roles = userService.findRoles(u1.getUsername());
-		Assert.assertEquals(1, roles.size());
-		Assert.assertTrue(roles.contains(r1.getRole()));
+		Set<Role> roles = userService.findRoles(u1.getUsername());
+		System.out.println(roles);
+		Assert.assertEquals(2, roles.size());
+		Assert.assertTrue(roles.contains(r1));
 
-		Set<String> permissions = userService.findPermissions(u1.getUsername());
+		Set<Permission> permissions = userService.findPermissions(u1.getUsername());
+		System.out.println(permissions);
 		Assert.assertEquals(3, permissions.size());
-		Assert.assertTrue(permissions.contains(p3.getPermission()));
+		Assert.assertTrue(permissions.contains(p3));
 
 		// li
 		roles = userService.findRoles(u2.getUsername());
@@ -100,11 +116,11 @@ public class ServiceTest extends ShiroTest {
 		permissions = userService.findPermissions(u2.getUsername());
 		Assert.assertEquals(0, permissions.size());
 
-		// 解除 admin-menu:update关联
+		// 解除 admin - menu:update 关联
 		roleService.uncorrelatePermissions(r1.getId(), p3.getId());
 		permissions = userService.findPermissions(u1.getUsername());
 		Assert.assertEquals(2, permissions.size());
-		Assert.assertFalse(permissions.contains(p3.getPermission()));
+		Assert.assertFalse(permissions.contains(p3));
 
 		// 删除一个permission
 		permissionService.deletePermission(p2.getId());
@@ -117,4 +133,19 @@ public class ServiceTest extends ShiroTest {
 		Assert.assertEquals(0, roles.size());
 	}
 
+	@Test
+	@Ignore
+	public void testSet(){
+		Map<String, String> map1 = new HashMap<>();
+		map1.put("username", "bo");
+		map1.put("password", "12345");
+		Map<String, String> map2 = new HashMap<>();
+		map2.put("username", "lin");
+		map2.put("password", "1145");
+		List<Map> list = new ArrayList<>();
+		list.add(map1);
+		list.add(map2);
+		System.out.println(list);
+	}
+	
 }
