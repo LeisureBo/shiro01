@@ -97,7 +97,7 @@ public class ServiceTest extends ShiroTest {
 	}
 
 	@Test
-//	@Ignore
+	@Ignore
 	public void testUserRolePermissionRelation() {
 		// zhang
 		Set<Role> roles = userService.findRoles(u1.getUsername());

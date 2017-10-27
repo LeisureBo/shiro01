@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -94,26 +95,42 @@ public class UserDaoImpl implements UserDao, RowMapper<User> {
 	@Override
 	public User findById(Long userId) {
 		String sql = "select * from sys_users where id=?";
-		return jdbcTemplate.queryForObject(sql, this, userId);
+		try {
+			return jdbcTemplate.queryForObject(sql, this, userId);
+		} catch (DataAccessException e) {
+			return null;
+		}
 	}
 
 	@Override
 	public User findByUsername(String username) {
 		String sql = "select * from sys_users where username=?";
-		return jdbcTemplate.queryForObject(sql, this, username);
+		try {
+			return jdbcTemplate.queryForObject(sql, this, username);
+		} catch (DataAccessException e) {
+			return null;
+		}
 	}
 
 	@Override
 	public Set<Role> findRoles(String username) {
 		String sql = "select r.* from sys_users u, sys_roles r,sys_users_roles ur where u.username=? and u.id=ur.user_id and r.id=ur.role_id";
-		return new HashSet(jdbcTemplate.query(sql, new BeanPropertyRowMapper(Role.class), username));
+		try {
+			return new HashSet(jdbcTemplate.query(sql, new BeanPropertyRowMapper(Role.class), username));
+		} catch (DataAccessException e) {
+			return null;
+		}
 	}
 
 	@Override
 	public Set<Permission> findPermissions(String username) {
 		String sql = "select p.* from sys_permissions p INNER JOIN sys_roles_permissions rp ON p.id=rp.permission_id where role_id in ("
 				+ "select ur.role_id from sys_users u INNER JOIN sys_users_roles ur ON u.id=ur.user_id where username=?);";
-		return new HashSet(jdbcTemplate.query(sql, new BeanPropertyRowMapper(Permission.class), username));
+		try {
+			return new HashSet(jdbcTemplate.query(sql, new BeanPropertyRowMapper(Permission.class), username));
+		} catch (DataAccessException e) {
+			return null;
+		}
 	}
 
 	/**

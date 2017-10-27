@@ -2,6 +2,8 @@ package com.bo.shiro.service;
 
 import java.util.Set;
 
+import org.springframework.dao.EmptyResultDataAccessException;
+
 import com.bo.shiro.common.PasswordHelper;
 import com.bo.shiro.dao.UserDao;
 import com.bo.shiro.dao.UserDaoImpl;
