@@ -23,7 +23,7 @@
 			如果没有就默认加载classpath:shiro.ini，即默认相对于web应用上下文根路径 -->
 	<context-param>
 		<param-name>shiroConfigLocations</param-name>
-		<param-value>classpath:shiro/shiro_web_integration.ini</param-value>
+		<param-value>classpath:shiro/web/custom_filter_test.ini</param-value>
 	</context-param>
 	
 	<filter>

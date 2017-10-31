@@ -1,4 +1,4 @@
-package com.bo.shiro.servlet;
+package com.bo.shiro.web.servlet;
 
 import java.io.IOException;
 
@@ -11,14 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @Description 
  * @author 王博
- * @version 2017年9月21日　下午9:56:37
+ * @version 2017年9月21日　下午10:06:18
  */
-@WebServlet("/role")
-public class RoleServlet extends HttpServlet {
+@WebServlet("/unauthorized")
+public class UnAuthorizedServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 3261711695138320734L;
+	private static final long serialVersionUID = 2375711066056636472L;
 
-	public RoleServlet() {
+	public UnAuthorizedServlet() {
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class RoleServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.getRequestDispatcher("/shiro/admin/role.jsp").forward(req, resp);
+		req.getRequestDispatcher("/shiro/user/unauthorized.jsp").forward(req, resp);
 	}
 
 }

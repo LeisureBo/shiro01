@@ -1,4 +1,4 @@
-package com.bo.shiro.servlet;
+package com.bo.shiro.web.servlet;
 
 import java.io.IOException;
 
@@ -11,14 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @Description 
  * @author 王博
- * @version 2017年9月21日　下午10:03:55
+ * @version 2017年9月21日　下午9:56:37
  */
-@WebServlet("/permission")
-public class PermissionServlet extends HttpServlet {
+@WebServlet("/role")
+public class RoleServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 1293767291362099863L;
+	private static final long serialVersionUID = 3261711695138320734L;
 
-	public PermissionServlet() {
+	public RoleServlet() {
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class PermissionServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.getRequestDispatcher("shiro/admin/perms.jsp").forward(req, resp);
+		req.getRequestDispatcher("/shiro/admin/role.jsp").forward(req, resp);
 	}
 
 }

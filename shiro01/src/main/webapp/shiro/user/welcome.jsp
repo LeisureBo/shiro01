@@ -24,6 +24,7 @@
 
 <body>
 	<h4>welcome:${subject.principal}</h4>
+	<h4><a href="logout">退出登录</a></h4>
 	<hr>
 	<a href="permission">权限配置</a><br/>
 	<a href="role">角色配置</a><br/>

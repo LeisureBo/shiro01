@@ -1,4 +1,4 @@
-package com.bo.shiro.servlet;
+package com.bo.shiro.web.servlet;
 
 import java.io.IOException;
 

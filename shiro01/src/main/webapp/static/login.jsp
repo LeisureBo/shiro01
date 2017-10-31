@@ -9,7 +9,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>My JSP 'test.jsp' starting page</title>
+<title>登录</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -23,7 +23,11 @@
 </head>
 
 <body>
-	<h4>我是测试页</h4>
-
+	<div class="error">${shiroLoginFailure}</div>
+	<form action="" method="post">
+		用户名：<input type="text" name="username"><br />
+		密码：<input type="password" name="password"><br />
+		<input type="submit" value="登录">
+	</form>
 </body>
 </html>

@@ -1,4 +1,4 @@
-package com.bo.shiro.filter;
+package com.bo.shiro.web.filter;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package com.bo.shiro.servlet;
+package com.bo.shiro.web.servlet;
 
 import java.io.IOException;
 
@@ -30,6 +30,7 @@ public class FormFilterLoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 在登录Servlet中通过shiroLoginFailure得到authc登录失败时的异常类型名，然后根据此异常名来决定显示什么错误消息。
 		String errorClassName = (String) req.getAttribute("shiroLoginFailure");//shiroLoginFailure
+//		System.out.println(errorClassName);
 		if(UnknownAccountException.class.getName().equals(errorClassName)){//org.apache.shiro.authc.UnknownAccountException
 			req.setAttribute("msg", "用户名或密码错误!");
 		}else if(IncorrectCredentialsException.class.getName().equals(errorClassName)){
