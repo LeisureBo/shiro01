@@ -26,34 +26,11 @@ public class MyRealmC extends AuthorizingRealm {
 
 	private static Logger logger = LoggerFactory.getLogger(MyRealmC.class);
 	
-	/**
-	 * 
-	 */
-	public MyRealmC() {
+	@Override
+	public String getName() {
+		return this.getClass().getName();
 	}
-
-	/**
-	 * @param cacheManager
-	 */
-	public MyRealmC(CacheManager cacheManager) {
-		super(cacheManager);
-	}
-
-	/**
-	 * @param matcher
-	 */
-	public MyRealmC(CredentialsMatcher matcher) {
-		super(matcher);
-	}
-
-	/**
-	 * @param cacheManager
-	 * @param matcher
-	 */
-	public MyRealmC(CacheManager cacheManager, CredentialsMatcher matcher) {
-		super(cacheManager, matcher);
-	}
-
+	
 	/**
 	 * 获取认证信息
 	 */
