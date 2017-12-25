@@ -22,34 +22,34 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
 
 	private Logger logger = LoggerFactory.getLogger(RetryLimitHashedCredentialsMatcher.class);
 	private static Ehcache passwordRetryCache;
-	
+
 	static {
 		CacheManager cacheManager = CacheManager.newInstance(CacheManager.class.getClassLoader().getResource("ehcache/ehcache.xml"));
 		passwordRetryCache = cacheManager.getCache("passwordRetryCache");
 	}
-	
+
 	@Override
 	public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
 		String username = (String) token.getPrincipal();
-		//retry count + 1
+		// retry count + 1
 		Element element = passwordRetryCache.get(username);
-		if(element == null){
+		if (element == null) {
 			element = new Element(username, new AtomicInteger(0));
 			passwordRetryCache.put(element);
 		}
 		// 缓存设置的存活时间为10分钟,即当重试次数用完且缓存失效后才可继续重试
 		AtomicInteger retryCount = (AtomicInteger) element.getObjectValue();
-		logger.info("retry------------------->"+retryCount.get());
-		if(retryCount.incrementAndGet() > 5){
-			//if retry count > 5 throw
+		logger.info("retry------------------->" + retryCount.get());
+		if (retryCount.incrementAndGet() > 5) {
+			// if retry count > 5 throw
 			throw new ExcessiveAttemptsException();
 		}
 		boolean matches = super.doCredentialsMatch(token, info);
-        if(matches) {
-            //clear retry count
-            passwordRetryCache.remove(username);
-        }
-        return matches;
+		if (matches) {
+			// clear retry count
+			passwordRetryCache.remove(username);
+		}
+		return matches;
 	}
-	
+
 }
