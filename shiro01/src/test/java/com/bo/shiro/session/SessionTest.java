@@ -22,7 +22,7 @@ public class SessionTest extends ShiroTest {
 		
 		Session session = subject().getSession();
 		System.out.println("Id:"+session.getId());//获取会话ID
-		System.out.println("Host:"+session.getHost());//获取当前登录用户主机地址
+		System.out.println("Host:"+session.getHost());//获取当前登录用户主机地址(如果未知，返回null)
 		System.out.println("Timeout:"+session.getTimeout());//获取超时时间(默认30分钟)
 		System.out.println("StartTimestamp:"+session.getStartTimestamp());//获取会话创建时间
 		System.out.println("LastAccessTime:"+session.getLastAccessTime());//获取最后访问时间
