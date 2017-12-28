@@ -4,7 +4,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.session.SessionListenerAdapter;
 
 /**
- * @Description shiro session监听器2
+ * @Description shiro session监听器2 (通过继承适配器监听指定事件)
  * @author 王博
  * @version 2017年11月2日　上午1:06:17
  */
