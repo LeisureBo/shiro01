@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 
 /**
  * @Description 
@@ -27,6 +28,14 @@ public class LogoutServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Session session = SecurityUtils.getSubject().getSession();
+		System.out.println(session.getClass().getName());
+		System.out.println("session id:"+session.getId());
+		System.out.println("session host:"+session.getHost());
+		System.out.println("session timeout:"+session.getTimeout());
+		System.out.println("session startTime:"+session.getStartTimestamp());
+		System.out.println("session lastAccessTime:"+session.getLastAccessTime());
+		System.out.println("session attribute[skey]:"+session.getAttribute("skey"));
 		SecurityUtils.getSubject().logout();
 		req.getRequestDispatcher("/index.jsp").forward(req, resp);
 	}

@@ -29,6 +29,7 @@ public class OnlineSessionFactory implements SessionFactory {
 				session.setSystemHost(request.getLocalAddr() + ":" + request.getLocalPort());
 			}
 		}
+		System.out.println("OnlineSessionFactory -> create OnlineSession finished !");
 		return session;
 	}
 

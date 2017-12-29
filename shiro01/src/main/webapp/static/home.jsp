@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ page import="org.apache.shiro.SecurityUtils" %>
-<%@ page import="org.apache.shiro.session.mgt.OnlineSession" %>
+<%@ page import="com.bo.shiro.session.mgt.OnlineSession" %>
 <%@ page import="com.bo.shiro.session.dao.MySessionDAO" %>
 <%@ page import="java.io.Serializable" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
@@ -30,12 +30,13 @@
 	</shiro:guest>
 	<shiro:user>
     	欢迎[<shiro:principal />]登录，<a href="${pageContext.request.contextPath}/logout">点击退出</a><br />
+		online_session：${requestScope.online_session}<br/>
 	</shiro:user>
 
 	<shiro:user>
 		<%
 			SecurityUtils.getSubject().getSession().setAttribute("key", 123);
-			out.print(SecurityUtils.getSubject().getSession().getAttribute("key"));
+			out.println(SecurityUtils.getSubject().getSession().getAttribute("key"));
 		%>
 		<br />
 		<%

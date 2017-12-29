@@ -59,6 +59,7 @@ public class LoginServlet extends HttpServlet{
 		}
 		
 		if(subject.isAuthenticated() && msg.equals("")){// 登录成功返回欢迎界面
+			subject.getSession().setAttribute("skey", "session key");
 			req.setAttribute("subject", subject);
 			String jumpUrl = "shiro/user/welcome.jsp";
 			String fromUrl = (String)req.getSession().getAttribute("fromUrl");
