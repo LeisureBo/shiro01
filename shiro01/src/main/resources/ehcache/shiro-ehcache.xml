@@ -18,8 +18,25 @@
            overflowToDisk="false"
            eternal="false"
            diskPersistent="false"
-           timeToLiveSeconds="0"
-           timeToIdleSeconds="0"
+           timeToLiveSeconds="600"
+           timeToIdleSeconds="600"
            statistics="true"/>
 
+    <cache name="authorizationCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="600"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+
+    <cache name="authenticationCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="600"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
 </ehcache>
