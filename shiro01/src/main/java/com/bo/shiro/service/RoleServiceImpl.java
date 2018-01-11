@@ -38,6 +38,16 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	/**
+	 * 根据角色标识符查询角色 
+	 * @param role
+	 * @return
+	 */
+	@Override
+	public Role findByIdentifier(String role) {
+		return roleDao.findByIdentifier(role);
+	}
+	
+	/**
 	 * 添加角色-权限之间关系
 	 * @param roleId
 	 * @param permissionIds

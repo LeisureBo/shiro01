@@ -15,6 +15,8 @@ public interface RoleService {
 
 	public void deleteRole(Long roleId);// 删除角色
 
+	public Role findByIdentifier(String role);// 根据角色标识符查询角色
+	
 	// 添加角色-权限之间关系
 	public void correlatePermissions(Long roleId, Long... permissionIds);
 

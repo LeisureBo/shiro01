@@ -2,10 +2,13 @@ package com.bo.shiro.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 
 import com.bo.shiro.common.JdbcTemplateUtils;
@@ -16,7 +19,7 @@ import com.bo.shiro.entity.Role;
  * @author 王博
  * @version 2017年10月18日　下午4:48:27
  */
-public class RoleDaoImpl implements RoleDao {
+public class RoleDaoImpl implements RoleDao, RowMapper<Role> {
 
 	private JdbcTemplate jdbcTemplate = JdbcTemplateUtils.jdbcTemplate();
 
@@ -55,6 +58,16 @@ public class RoleDaoImpl implements RoleDao {
 	}
 
 	@Override
+	public Role findByIdentifier(String role) {
+		String sql = "select * from sys_roles where role=?";
+		try {
+			return jdbcTemplate.queryForObject(sql, this, role);
+		} catch (DataAccessException e) {
+			return null;
+		}
+	}
+	
+	@Override
 	public void correlatePermissions(Long roleId, Long... permissionIds) {
 		if (permissionIds == null || permissionIds.length == 0) {
 			return;
@@ -83,6 +96,23 @@ public class RoleDaoImpl implements RoleDao {
 	private boolean exists(Long roleId, Long permissionId) {
 		String sql = "select count(1) from sys_roles_permissions where role_id=? and permission_id=?";
 		return jdbcTemplate.queryForObject(sql, Integer.class, roleId, permissionId) != 0;
+	}
+
+	/**
+	 * @Description 
+	 * @param rs
+	 * @param rowNum
+	 * @return
+	 * @throws SQLException
+	 */
+	@Override
+	public Role mapRow(ResultSet rs, int rowNum) throws SQLException {
+		Role role = new Role();
+		role.setId(rs.getLong("id"));
+		role.setRole(rs.getString("role"));
+		role.setDescription(rs.getString("description"));
+		role.setAvailable(rs.getBoolean("available"));
+		return role;
 	}
 
 }

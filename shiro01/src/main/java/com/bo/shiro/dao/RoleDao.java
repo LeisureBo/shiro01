@@ -15,6 +15,8 @@ public interface RoleDao {
 
 	public void deleteRole(Long roleId);
 
+	public Role findByIdentifier(String role);
+	
 	public void correlatePermissions(Long roleId, Long... permissionIds);
 
 	public void uncorrelatePermissions(Long roleId, Long... permissionIds);

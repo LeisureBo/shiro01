@@ -14,4 +14,6 @@ public interface PermissionService {
 	public void updatePermission(Permission permission);// 更新权限
 	
 	public void deletePermission(Long permissionId);// 删除权限
+	
+	public Permission findByIdentifier(String permission);// 根据权限标识符查找权限
 }

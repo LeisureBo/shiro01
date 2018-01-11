@@ -37,4 +37,14 @@ public class PermissionServiceImpl implements PermissionService {
 	public void deletePermission(Long permissionId) {
 		permissionDao.deletePermission(permissionId);
 	}
+
+	/**
+	 * @Description 
+	 * @param permission
+	 * @return
+	 */
+	@Override
+	public Permission findByIdentifier(String permission) {
+		return permissionDao.findByIdentifier(permission);
+	}
 }

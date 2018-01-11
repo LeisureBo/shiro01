@@ -14,4 +14,6 @@ public interface PermissionDao {
 	public void updatePermission(Permission permission);
 	
 	public void deletePermission(Long permissionId);
+	
+	public Permission findByIdentifier(String permission);
 }

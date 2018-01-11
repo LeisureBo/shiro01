@@ -2,10 +2,13 @@ package com.bo.shiro.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 
 import com.bo.shiro.common.JdbcTemplateUtils;
@@ -16,7 +19,7 @@ import com.bo.shiro.entity.Permission;
  * @author 王博
  * @version 2017年10月18日　下午5:03:02
  */
-public class PermissionDaoImpl implements PermissionDao {
+public class PermissionDaoImpl implements PermissionDao, RowMapper<Permission> {
 
 	private JdbcTemplate jdbcTemplate = JdbcTemplateUtils.jdbcTemplate();
 	
@@ -52,6 +55,33 @@ public class PermissionDaoImpl implements PermissionDao {
 
         sql = "delete from sys_permissions where id=?";
         jdbcTemplate.update(sql, permissionId);
+	}
+
+	@Override
+	public Permission findByIdentifier(String permission) {
+		String sql = "select * from sys_permissions where permission=?";
+		try {
+			return jdbcTemplate.queryForObject(sql, this, permission);
+		} catch (DataAccessException e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * @Description 
+	 * @param rs
+	 * @param rowNum
+	 * @return
+	 * @throws SQLException
+	 */
+	@Override
+	public Permission mapRow(ResultSet rs, int rowNum) throws SQLException {
+		Permission permission = new Permission();
+		permission.setId(rs.getLong("id"));
+		permission.setPermission(rs.getString("permission"));
+		permission.setDescription(rs.getString("description"));
+		permission.setAvailable(rs.getBoolean("available"));
+		return permission;
 	}
 
 }
